@@ -10,17 +10,20 @@ using namespace std;
 class Student{
 	//public constructor, destructor, and functions
 	public:
-		Student(char*, int);
+		Student(char*, int, float);
 		~Student();
 		char* getName();
 		void setName(char*);
-		int getAge();
-		void setAge(int);
+		int getID();
+		void setID(int);
+		float getGPA();
+		void setGPA(float);
 		void print();
 	//private variables
 	private:
 		char* name;
-		int age;
+		float GPA;
+		int ID;
 };
 //end of header guard
 #endif

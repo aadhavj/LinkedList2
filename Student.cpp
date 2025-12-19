@@ -5,10 +5,11 @@
 using namespace std;
 
 //Student constructor
-Student::Student(char* inputName, int inputAge) {
+Student::Student(char* inputName, int inputID, float inputGPA) {
 	name = new char[1000];
 	strcpy(name, inputName);
-	age = inputAge;
+	ID = inputID;
+	GPA = inputGPA;
 }
 //Student destructor
 Student::~Student() {
@@ -23,14 +24,20 @@ void Student::setName(char* newName){
 	strcpy(name, newName);
 }
 //get students age
-int Student::getAge(){
-	return age;
+int Student::getID(){
+	return ID;
 }
 //set students age
-void Student::setAge(int newAge){
-	age = newAge;
+void Student::setID(int newID){
+	ID = newID;
+}
+float Student::getGPA(){
+	return GPA;
+}
+void Student::setGPA(float newGPA){
+	GPA = newGPA;
 }
 //print student's info
 void Student::print(){
-	cout << "\nName: " << name << "\nAge: " << age << endl;
+	cout << "\nName: " << name << "\tID: " << ID << "\tGPA: " << GPA << endl;
 }
