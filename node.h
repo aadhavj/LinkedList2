@@ -2,7 +2,7 @@
 #define NODE_H
 
 #include <iostream>
-#include "student.h"
+#include "Student.h"
 
 /*
   Nick H

@@ -8,7 +8,7 @@ using namespace std;
 //Functions prototypes
 void add(Student* &newStudent, Node* &head);
 void printNode(Node* next, Node* head, int index);
-void Delete(Node* &current, int IndexesAway, Node* previous);
+void Delete(Node* &current, int chosenID, Node* previous);
 
 int main(){
 	//Basic var instantiation
@@ -38,17 +38,16 @@ int main(){
                 if (strcmp(command, del) == 0){
                         	cout << "Delete command initiated" << endl;
 			if (head != NULL){
-				int inputIndex;
-
-				printNode(head,head, 0);
-
+				
+				int deleteID;
                         	//Gets student ID to delete
-                        	cout << "Enter Student Index (Delete): ";
-                        	cin >> inputIndex;
+                        	cout << "Enter Student ID (Delete): ";
+                        	cin >> deleteID;
 				cin.ignore();
 
                         	//Deletes at that index
-                        	Delete(head, inputIndex, NULL);
+                        	Delete(head, deleteID, NULL);
+				cout << "Object deleted" << endl;
 			}
 			else{
 				cout << "\nNo objects to delete." << endl;
@@ -138,7 +137,7 @@ void add(Student* &newStudent, Node* &head){
 //Print function
 void printNode(Node* next, Node* head, int index){
 	if (next == head) {
-		cout << "list: ";
+		cout << "Student object(s): \n";
 	}
 	if (next != NULL) {
 		cout << "Student " << index << endl;
@@ -152,9 +151,9 @@ void printNode(Node* next, Node* head, int index){
 }
 
 //delete function
-void Delete(Node* &current, int IndexesAway, Node* previous){
+void Delete(Node* &current, int chosenID, Node* previous){
 	Node* temp = current->getNext();
-	if (IndexesAway == 0){
+	if (chosenID == current->getStudent()->getID()){
 		if (previous == NULL){
 			delete current;
 			current = temp;
@@ -170,6 +169,6 @@ void Delete(Node* &current, int IndexesAway, Node* previous){
 		}
 	}
 	else{
-		Delete(temp, IndexesAway-1, current);
+		Delete(temp, chosenID, current);
 	}
 }
