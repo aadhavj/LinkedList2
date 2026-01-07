@@ -6,9 +6,10 @@
 using namespace std;
 
 //Functions prototypes
-void add(Student* &newStudent, Node* &head);
+void add(Student* &newStudent, Node* &head, Node* currentNode);
 void printNode(Node* next, Node* head, int index);
 void Delete(Node* &current, int chosenID, Node* previous);
+void average(Node* current, float sum, int numOfNums);
 
 int main(){
 	//Basic var instantiation
@@ -82,7 +83,7 @@ int main(){
 			Student *createdStudent = new Student(inputName, inputID, GPA);
 
                         //Add to studentList array
-			add(createdStudent, head);
+			add(createdStudent, head, head);
 
                         cout << "Student Created!" << endl;
                 }
@@ -97,15 +98,9 @@ int main(){
 				cout << "No student objects. Cannot find average." << endl;
 			}
 			else{
-				Node* current = head;
-				float sum = 0;
-				int numOfGPA = 0;
-				while (current != NULL){
-					sum += current->getStudent()->getGPA();
-					numOfGPA += 1;
-					current = current->getNext();
-				}
-				cout << "Average score: " << fixed << setprecision(2) << sum / numOfGPA << endl;
+				cout << "Average score: ";
+				average(head,0,0);
+				cout << endl;
 				
 			}
 		}
@@ -121,16 +116,28 @@ int main(){
 	return 0;
 }
 //Add function
-void add(Student* &newStudent, Node* &head){
-	Node* current = head;
+void add(Student* &newStudent, Node* &head, Node* currentNode){
+	Node* current = currentNode;
 	if (current == NULL){
 		head = new Node(newStudent);
 	}
 	else{
-		while (current->getNext() !=  NULL) {
-			current = current->getNext();
+		if (current->getStudent()->getID() > newStudent->getID() && current->getStudent()->getID() == head->getStudent()->getID()){
+			Node* StudentNode = new Node(newStudent);
+			StudentNode->setNext(head);
+			head = StudentNode;
 		}
-		current->setNext(new Node(newStudent));
+		else if (current->getNext() == NULL){
+			current->setNext(new Node(newStudent));
+		}
+		else if(current->getStudent()->getID() < newStudent->getID() && current->getNext()->getStudent()->getID() > newStudent->getID()){
+			Node* tempNode = current->getNext();
+			current->setNext(new Node(newStudent));
+			current->getNext()->setNext(tempNode);
+		}
+		else{
+			add(newStudent,head,current->getNext());
+		}
 	}
 }
 
@@ -170,5 +177,17 @@ void Delete(Node* &current, int chosenID, Node* previous){
 	}
 	else{
 		Delete(temp, chosenID, current);
+	}
+}
+//average function
+void average(Node* current, float sum, int numOfNums){
+	if (current == NULL){
+		cout << fixed << setprecision(2) << 0;
+	}
+	else if (current->getNext() == NULL){
+		cout << fixed << setprecision(2) << (sum+current->getStudent()->getGPA())/(numOfNums+1);
+	}
+	else{
+		average(current->getNext(), sum+current->getStudent()->getGPA(), numOfNums+1);
 	}
 }
